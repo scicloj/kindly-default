@@ -64,3 +64,7 @@
      java.awt.image.BufferedImage
      (kind [image]
        :kind/buffered-image)))
+
+
+(->> [:kind/hidden :kind/pprint :kind/hiccup :kind/vega :kind/vega-lite :kind/table]
+     (run! kindly/add-kind!))
