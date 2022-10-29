@@ -127,3 +127,18 @@
             (kindly/advice [advice])
             :kind
             (= :kind/string)))))
+
+(deftest added-kinds-test
+  (is
+   (->> [[kind/hidden :kind/hidden]
+         [kind/pprint :kind/pprint]
+         [kind/println :kind/println]
+         [kind/hiccup :kind/hiccup]
+         [kind/vega :kind/vega]
+         [kind/vega-lite :kind/vega-lite]
+         [kind/table :kind/table]]
+        (every? (fn [[f k]]
+                  (-> {:value (f [:abcd])}
+                      (kindly/advice [default-advice])
+                      :kind
+                      (= k)))))))
