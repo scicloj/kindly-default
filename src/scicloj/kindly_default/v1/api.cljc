@@ -4,9 +4,9 @@
             [scicloj.kindly-default.v1.impl :as impl]))
 
 
-(defn create-advice
+(defn create-advisor
   ([]
-   (create-advice {:predicate-kinds impl/default-predicate-kinds}))
+   (create-advisor {:predicate-kinds impl/default-predicate-kinds}))
   ([{:keys [predicate-kinds]}]
    (fn [{:as context :keys [value form]}]
      (if (:kind context)
@@ -17,4 +17,4 @@
                                                     predicate-kinds)))))))
 
 (defn setup! []
-  (kindly/set-only-advice! (create-advice)))
+  (kindly/set-only-advisor! (create-advisor)))
