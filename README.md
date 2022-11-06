@@ -1,6 +1,6 @@
 # kindly-default
 
-default advice for [Kindly](https://github.com/scicloj/kindly)
+The default advice of [Kindly](https://github.com/scicloj/kindly)
 
 [![Clojars Project](https://img.shields.io/clojars/v/org.scicloj/kindly-default.svg)](https://clojars.org/org.scicloj/kindly-default)
 
