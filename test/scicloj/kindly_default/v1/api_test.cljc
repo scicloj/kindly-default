@@ -11,8 +11,8 @@
 (deftest default-test
   (is (-> {:value {:x 9}}
           (kindly/advice [default-advisor])
-          :kind
-          nil?)))
+          (->> (map :kind)
+               (= [nil])))))
 
 (deftype MyType1 [])
 (extend-protocol kindness/Kindness
@@ -21,32 +21,31 @@
     :kind/mytestkind1))
 
 (deftest type-with-user-defined-kindness-test
-
   (is (-> {:value (MyType1.)}
           (kindly/advice [default-advisor])
-          :kind
-          (= :kind/mytestkind1))))
+          (->> (map :kind)
+               (= [:kind/mytestkind1])))))
 
 (deftype MyType2 [])
 
 (deftest type-without-user-defined-kindness-test
   (is (-> {:value (MyType2.)}
           (kindly/advice [default-advisor])
-          :kind
-          nil?)))
+          (->> (map :kind)
+               (= [nil])))))
 
 (deftest nil-test
   (is (-> {:value nil}
           (kindly/advice [default-advisor])
-          :kind
-          nil?)))
+          (->> (map :kind)
+               (= [nil])))))
 
 (deftest value-with-kind-metadata-test
   (is (-> {:value (-> {:some :data}
                       (with-meta {:kindly/kind :kind/mytestkind2}))}
           (kindly/advice [default-advisor])
-          :kind
-          (= :kind/mytestkind2))))
+          (->> (map :kind)
+               (= [:kind/mytestkind2])))))
 
 (deftest consider-test
   (is (-> {:some :data}
@@ -57,9 +56,8 @@
   (is (-> {:value (-> {:some :data}
                       (kindly/consider :kind/mytestkind4))}
           (kindly/advice [default-advisor])
-          :kind
-          (= :kind/mytestkind4)
-          is)))
+          (->> (map :kind)
+               (= [:kind/mytestkind4])))))
 
 (kindly/add-kind! :kind/mytestkind5)
 
@@ -67,31 +65,26 @@
   (is (-> {:value (-> {:some :data}
                       kind/mytestkind5)}
           (kindly/advice [default-advisor])
-          :kind
-          (= :kind/mytestkind5)))
-  (is (-> {:value (-> {:some :data}
-                      (kindly/consider kind/mytestkind5))}
-          (kindly/advice [default-advisor])
-          :kind
-          (= :kind/mytestkind5))))
+          (->> (map :kind)
+               (= [:kind/mytestkind5])))))
 
 (deftest form-metadata-test
   (is (-> {:form (read-string "^:kind/mytestkind6 (+ 1 2)")
            :value 3}
           (kindly/advice [default-advisor])
-          :kind
-          (= :kind/mytestkind6)))
+          (->> (map :kind)
+               (= [:kind/mytestkind6]))))
   (is (-> {:form (read-string "^{:kind/mytestkind7 true} (+ 1 2)")
            :value 3}
           (kindly/advice [default-advisor])
-          :kind
-          (= :kind/mytestkind7))))
+          (->> (map :kind)
+               (= [:kind/mytestkind7])))))
 
 (deftest default-test
   (is (-> {:value {:x 9}}
           (kindly/advice [default-advisor])
-          :kind
-          nil?)))
+          (->> (map :kind)
+               (= [nil])))))
 
 ;; (deftest hiccup-test
 ;;   (is (-> {:value [:h4 "hi"]}
@@ -102,16 +95,16 @@
 (deftest var-test
   (is (-> {:value #'clojure.core/reduce}
           (kindly/advice [default-advisor])
-          :kind
-          (= :kind/var))))
+          (->> (map :kind)
+               (= [:kind/var])))))
 
 (import java.awt.image.BufferedImage)
 
 (deftest image-test
   (is (-> {:value (BufferedImage. 4 4 BufferedImage/TYPE_INT_RGB)}
           (kindly/advice [default-advisor])
-          :kind
-          (= :kind/buffered-image))))
+          (->> (map :kind)
+               (= [:kind/buffered-image])))))
 
 (deftest predicate-test
   (let [advisor (api/create-advisor
@@ -121,12 +114,12 @@
                                      :kind/string]]})]
     (is (-> {:value 3}
             (kindly/advice [advisor])
-            :kind
-            (= :kind/three)))
+            (->> (map :kind)
+                 (= [:kind/three]))))
     (is (-> {:value "abcd"}
             (kindly/advice [advisor])
-            :kind
-            (= :kind/string)))))
+            (->> (map :kind)
+                 (= [:kind/string]))))))
 
 (deftest added-kinds-test
   (is
@@ -140,5 +133,5 @@
         (every? (fn [[f k]]
                   (-> {:value (f [:abcd])}
                       (kindly/advice [default-advisor])
-                      :kind
-                      (= k)))))))
+                      (->> (map :kind)
+                           (= [k]))))))))
