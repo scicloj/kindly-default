@@ -1,6 +1,9 @@
 # Change Log
 All notable changes to this project will be documented in this file. This change log follows the conventions of [keepachangelog.com](http://keepachangelog.com/).
 
+## [1-alpha6-SNAPSHOT]
+- a more graceful return value
+
 ## [1-alpha5] - 2022-12-08
 - added some default kinds
 

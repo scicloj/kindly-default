@@ -17,4 +17,5 @@
                                                     predicate-kinds)))))))
 
 (defn setup! []
-  (kindly/set-only-advisor! (create-advisor)))
+  (kindly/set-only-advisor! (create-advisor))
+  :ok)
