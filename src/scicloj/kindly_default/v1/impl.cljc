@@ -17,11 +17,19 @@
                               (= "kind")))
                  first))))
 
+(defn test? [value]
+  (some-> value
+          meta
+          :test
+          fn?))
+
 (defn value->kind-by-logic [value]
   (cond ;; (and (vector? value)
     ;;      (-> value first keyword?))
     ;; :kind/hiccup
     ;;
+    (test? value)
+    :kind/test
     (var? value)
     :kind/var
     ;;

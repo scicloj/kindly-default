@@ -98,6 +98,12 @@
           (->> (map :kind)
                (= [:kind/var])))))
 
+(deftest test-test
+  (is (-> {:value #'var-test}
+          (kindly/advice [default-advisor])
+          (->> (map :kind)
+               (= [:kind/test])))))
+
 (import java.awt.image.BufferedImage)
 
 (deftest image-test
