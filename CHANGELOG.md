@@ -1,6 +1,9 @@
 # Change Log
 All notable changes to this project will be documented in this file. This change log follows the conventions of [keepachangelog.com](http://keepachangelog.com/).
 
+## [1-alpha8] - 2023-06-07
+- added `is->` for literate testing
+
 ## [1-alpha7] - 2023-30-05
 - recognizing tests as :kind/test
 

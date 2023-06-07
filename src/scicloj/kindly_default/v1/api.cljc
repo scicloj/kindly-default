@@ -1,8 +1,8 @@
 (ns scicloj.kindly-default.v1.api
   (:require [scicloj.kindly.v3.api :as kindly]
             [scicloj.kindly.v3.kindness :as kindness]
-            [scicloj.kindly-default.v1.impl :as impl]))
-
+            [scicloj.kindly-default.v1.impl :as impl]
+            [clojure.test]))
 
 (defn create-advisor
   ([]
@@ -19,3 +19,8 @@
 (defn setup! []
   (kindly/set-only-advisor! (create-advisor))
   :ok)
+
+
+(defn is-> [value predicate & args]
+  (clojure.test/is (apply predicate value args))
+  value)
