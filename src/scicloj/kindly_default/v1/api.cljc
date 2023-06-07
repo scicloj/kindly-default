@@ -24,3 +24,17 @@
 (defn is-> [value predicate & args]
   (clojure.test/is (apply predicate value args))
   value)
+
+(defn code [code-string]
+  (-> [code-string]
+      (kindly/consider :kind/code)
+      (vary-meta
+       assoc
+       :kindly/hide-code? true)))
+
+(defn md [markdown-string]
+  (-> [markdown-string]
+      (kindly/consider :kind/md)
+      (vary-meta
+       assoc
+       :kindly/hide-code? true)))
