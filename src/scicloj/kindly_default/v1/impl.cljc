@@ -23,29 +23,12 @@
           :test
           fn?))
 
-(defn value->kind-by-logic [value]
-  (cond
-    ;; (and (vector? value)
-    ;;      (-> value first keyword?))
-    ;; :kind/hiccup
-    ;;
-    (test? value) :kind/test
-    (var? value) :kind/var
-    (map? value) :kind/map
-    (set? value) :kind/set
-    (vector? value) :kind/vector
-    (sequential? value) :kind/seq
-    ;;
-    :else nil))
-
 (defn value->kind [value]
   (or (-> value
           meta
           :kindly/kind)
       (-> value
-          kindness/kind)
-      (-> value
-          value->kind-by-logic)))
+          kindness/kind)))
 
 (defn ->kind
   ([value form]
@@ -53,7 +36,6 @@
            form->kind)
        (-> value
            value->kind))))
-
 
 (defn check-predicate-kinds [value predicate-kinds]
   (->> predicate-kinds
@@ -66,7 +48,13 @@
 (def default-predicate-kinds
   [[(fn [v]
       (-> v type pr-str (= "tech.v3.dataset.impl.dataset.Dataset")))
-    :kind/dataset]])
+    :kind/dataset]
+   [test? :kind/test]
+   [var? :kind/var]
+   [map? :kind/map]
+   [set? :kind/set]
+   [vector? :kind/vector]
+   [sequential? :kind/seq]])
 
 
 #?(:clj
@@ -80,6 +68,6 @@
       :kind/test :kind/var
       :kind/map :kind/set :kind/vector :kind/seq
       :kind/table
-      :kind/hiccup :kind/reagent
+      :kind/md :kind/hiccup :kind/reagent
       :kind/vega :kind/vega-lite :kind/cytoscape :kind/echarts]
      (run! kindly/add-kind!))

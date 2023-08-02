@@ -145,12 +145,26 @@
             (->> (map :kind)
                  (= [:kind/vector1]))))))
 
+(deftest user-overdides-predicates-test
+  (let [advisor (api/create-advisor
+                 {:predicate-kinds [[vector? :kind/vector]]})]
+    (is (-> {:value [:div]}
+            (kindly/advice [advisor])
+            (->> (map :kind)
+                 (= [:kind/vector]))))
+    (is (-> {:value (kind/hiccup [:div])}
+            (kindly/advice [advisor])
+            (->> (map :kind)
+                 (= [:kind/hiccup]))))))
+
 (deftest added-kinds-test
   (is
    (->> [[kind/hidden :kind/hidden]
          [kind/pprint :kind/pprint]
          [kind/println :kind/println]
+         [kind/md :kind/md]
          [kind/hiccup :kind/hiccup]
+         [kind/reagent :kind/reagent]
          [kind/vega :kind/vega]
          [kind/vega-lite :kind/vega-lite]
          [kind/table :kind/table]]

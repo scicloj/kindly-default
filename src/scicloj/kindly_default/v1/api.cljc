@@ -12,9 +12,9 @@
      (if (:kind context)
        context
        (assoc context
-              :kind (or (impl/check-predicate-kinds value
-                                                    predicate-kinds)
-                        (impl/->kind value form)))))))
+              :kind (or (impl/->kind value form)
+                        (impl/check-predicate-kinds value
+                                                    predicate-kinds)))))))
 
 (defn setup! []
   (kindly/set-only-advisor! (create-advisor))
