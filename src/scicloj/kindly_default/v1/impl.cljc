@@ -76,5 +76,10 @@
        :kind/buffered-image)))
 
 
-(->> [:kind/hidden :kind/pprint :kind/println :kind/hiccup :kind/vega :kind/vega-lite :kind/table :kind/cytoscape :kind/echarts]
+(->> [:kind/hidden :kind/pprint :kind/println
+      :kind/test :kind/var
+      :kind/map :kind/set :kind/vector :kind/seq
+      :kind/table
+      :kind/hiccup :kind/reagent
+      :kind/vega :kind/vega-lite :kind/cytoscape :kind/echarts]
      (run! kindly/add-kind!))
