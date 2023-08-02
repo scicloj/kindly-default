@@ -9,7 +9,7 @@
   (api/create-advisor))
 
 (deftest default-test
-  (is (-> {:value {:x 9}}
+  (is (-> {:value 9}
           (kindly/advice [default-advisor])
           (->> (map :kind)
                (= [nil])))))
@@ -69,22 +69,16 @@
                (= [:kind/mytestkind5])))))
 
 (deftest form-metadata-test
-  (is (-> {:form (read-string "^:kind/mytestkind6 (+ 1 2)")
+  (is (-> {:form (read-string "^:kind/mytestkind6 (+ 0 1 2)")
            :value 3}
           (kindly/advice [default-advisor])
           (->> (map :kind)
                (= [:kind/mytestkind6]))))
-  (is (-> {:form (read-string "^{:kind/mytestkind7 true} (+ 1 2)")
+  (is (-> {:form (read-string "^{:kind/mytestkind7 true} (+ 0 1 2)")
            :value 3}
           (kindly/advice [default-advisor])
           (->> (map :kind)
                (= [:kind/mytestkind7])))))
-
-(deftest default-test
-  (is (-> {:value {:x 9}}
-          (kindly/advice [default-advisor])
-          (->> (map :kind)
-               (= [nil])))))
 
 ;; (deftest hiccup-test
 ;;   (is (-> {:value [:h4 "hi"]}
@@ -92,17 +86,35 @@
 ;;           :kind
 ;;           (= :kind/hiccup))))
 
-(deftest var-test
+(deftest kind-by-logid-test
   (is (-> {:value #'clojure.core/reduce}
           (kindly/advice [default-advisor])
           (->> (map :kind)
-               (= [:kind/var])))))
-
-(deftest test-test
-  (is (-> {:value #'var-test}
+               (= [:kind/var]))))
+  (is (-> {:value #'default-test}
           (kindly/advice [default-advisor])
           (->> (map :kind)
-               (= [:kind/test])))))
+               (= [:kind/test]))))
+  (is (-> {:value {:x 9}}
+          (kindly/advice [default-advisor])
+          (->> (map :kind)
+               (= [:kind/map]))))
+  (is (-> {:value #{0 1 2}}
+          (kindly/advice [default-advisor])
+          (->> (map :kind)
+               (= [:kind/set]))))
+  (is (-> {:value [0 1 2]}
+          (kindly/advice [default-advisor])
+          (->> (map :kind)
+               (= [:kind/vector]))))
+  (is (-> {:value '(0 1 2)}
+          (kindly/advice [default-advisor])
+          (->> (map :kind)
+               (= [:kind/seq]))))
+  (is (-> {:value (range 3)}
+          (kindly/advice [default-advisor])
+          (->> (map :kind)
+               (= [:kind/seq])))))
 
 (import java.awt.image.BufferedImage)
 
@@ -117,7 +129,9 @@
                  {:predicate-kinds [[(fn [v] (= v 3))
                                      :kind/three]
                                     [(fn [v] (-> v type pr-str (= "java.lang.String")))
-                                     :kind/string]]})]
+                                     :kind/string]
+                                    [vector?
+                                     :kind/vector1]]})]
     (is (-> {:value 3}
             (kindly/advice [advisor])
             (->> (map :kind)
@@ -125,7 +139,11 @@
     (is (-> {:value "abcd"}
             (kindly/advice [advisor])
             (->> (map :kind)
-                 (= [:kind/string]))))))
+                 (= [:kind/string]))))
+    (is (-> {:value [3]}
+            (kindly/advice [advisor])
+            (->> (map :kind)
+                 (= [:kind/vector1]))))))
 
 (deftest added-kinds-test
   (is

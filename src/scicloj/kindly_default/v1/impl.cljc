@@ -24,17 +24,19 @@
           fn?))
 
 (defn value->kind-by-logic [value]
-  (cond ;; (and (vector? value)
+  (cond
+    ;; (and (vector? value)
     ;;      (-> value first keyword?))
     ;; :kind/hiccup
     ;;
-    (test? value)
-    :kind/test
-    (var? value)
-    :kind/var
+    (test? value) :kind/test
+    (var? value) :kind/var
+    (map? value) :kind/map
+    (set? value) :kind/set
+    (vector? value) :kind/vector
+    (sequential? value) :kind/seq
     ;;
-    :else
-    nil))
+    :else nil))
 
 (defn value->kind [value]
   (or (-> value
