@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file. This change log follows the conventions of [keepachangelog.com](http://keepachangelog.com/).
 
+## [1-alpha10-SNAPSHOT]
+- marking plain clojure data structures with kinds
+- slight change in order of operations of default advice
+- added some default kinds
+
 ## [1-alpha9] - 2023-06-07
 - added convenience functions `md`, `code` to the API
 
