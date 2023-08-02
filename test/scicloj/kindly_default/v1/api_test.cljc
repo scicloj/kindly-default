@@ -145,7 +145,7 @@
             (->> (map :kind)
                  (= [:kind/vector1]))))))
 
-(deftest user-overdides-predicates-test
+(deftest user-overrides-predicates-test
   (let [advisor (api/create-advisor
                  {:predicate-kinds [[vector? :kind/vector]]})]
     (is (-> {:value [:div]}
