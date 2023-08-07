@@ -6,7 +6,7 @@ The default advice of [Kindly](https://github.com/scicloj/kindly)
 
 ## License
 
-Copyright © 2021 Scicloj
+Copyright © 2022 Scicloj
 
 This program and the accompanying materials are made available under the
 terms of the Eclipse Public License 2.0 which is available at
