@@ -1,8 +1,11 @@
 # kindly-default
 
-The default advice of [Kindly](https://github.com/scicloj/kindly)
+The default advice of [Kindly](https://github.com/scicloj/kindly) v3
 
 [![Clojars Project](https://img.shields.io/clojars/v/org.scicloj/kindly-default.svg)](https://clojars.org/org.scicloj/kindly-default)
+
+This small library has been part of the Kindly v3 setup, which is still in use as of Aug 2023. With the move to Kindly v4, it will probably be archived.
+
 
 ## License
 
